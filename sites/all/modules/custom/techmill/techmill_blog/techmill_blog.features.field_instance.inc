@@ -10,7 +10,7 @@
 function techmill_blog_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-blog_post-body'
+  // Exported field_instance: 'node-blog_post-body'.
   $field_instances['node-blog_post-body'] = array(
     'bundle' => 'blog_post',
     'default_value' => NULL,
@@ -36,9 +36,11 @@ function techmill_blog_field_default_field_instances() {
           'more_text' => 'Read more',
           'summary_handler' => 'trim',
           'trim_length' => 300,
+          'trim_link' => FALSE,
           'trim_options' => array(
             'text' => 'text',
           ),
+          'trim_preserve_tags' => '',
           'trim_suffix' => '...',
           'trim_type' => 'chars',
         ),
@@ -64,9 +66,11 @@ function techmill_blog_field_default_field_instances() {
           'more_text' => 'Read more',
           'summary_handler' => 'trim',
           'trim_length' => 120,
+          'trim_link' => FALSE,
           'trim_options' => array(
             'text' => 'text',
           ),
+          'trim_preserve_tags' => '',
           'trim_suffix' => '...',
           'trim_type' => 'chars',
         ),
@@ -111,9 +115,11 @@ function techmill_blog_field_default_field_instances() {
           'more_text' => 'Read more',
           'summary_handler' => 'trim',
           'trim_length' => 300,
+          'trim_link' => FALSE,
           'trim_options' => array(
             'text' => 'text',
           ),
+          'trim_preserve_tags' => '',
           'trim_suffix' => '...',
           'trim_type' => 'chars',
         ),
@@ -141,7 +147,7 @@ function techmill_blog_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-blog_post-field_blog_categories'
+  // Exported field_instance: 'node-blog_post-field_blog_categories'.
   $field_instances['node-blog_post-field_blog_categories'] = array(
     'bundle' => 'blog_post',
     'default_value' => NULL,
@@ -219,7 +225,7 @@ function techmill_blog_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-blog_post-field_blog_featured_image'
+  // Exported field_instance: 'node-blog_post-field_blog_featured_image'.
   $field_instances['node-blog_post-field_blog_featured_image'] = array(
     'bundle' => 'blog_post',
     'deleted' => 0,
@@ -239,6 +245,8 @@ function techmill_blog_field_default_field_instances() {
           ),
           'fallback_image_style' => '',
           'image_link' => 'content',
+          'lazyload' => '',
+          'lazyload_aspect_ratio' => '',
           'linked_field' => array(
             'advanced' => array(
               'class' => '',
@@ -275,6 +283,8 @@ function techmill_blog_field_default_field_instances() {
           ),
           'fallback_image_style' => '',
           'image_link' => '',
+          'lazyload' => '',
+          'lazyload_aspect_ratio' => '',
           'linked_field' => array(
             'advanced' => array(
               'class' => '',
@@ -305,6 +315,8 @@ function techmill_blog_field_default_field_instances() {
           ),
           'fallback_image_style' => '',
           'image_link' => 'content',
+          'lazyload' => '',
+          'lazyload_aspect_ratio' => '',
           'linked_field' => array(
             'advanced' => array(
               'class' => '',
@@ -361,7 +373,7 @@ function techmill_blog_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-blog_post-field_blog_tags'
+  // Exported field_instance: 'node-blog_post-field_blog_tags'.
   $field_instances['node-blog_post-field_blog_tags'] = array(
     'bundle' => 'blog_post',
     'default_value' => NULL,
