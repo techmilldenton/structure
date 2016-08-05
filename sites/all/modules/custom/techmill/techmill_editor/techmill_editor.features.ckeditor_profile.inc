@@ -159,18 +159,6 @@ function techmill_editor_ckeditor_profile_defaults() {
         'theme_config_js' => 'f',
         'js_conf' => 'config.allowedContent = true;',
         'loadPlugins' => array(
-          'ckeditor_image' => array(
-            'name' => 'enhanced_image',
-            'desc' => 'CKEditor Image - Enhanced Image plugin',
-            'path' => '%base_path%sites/all/modules/ckeditor_image/plugins/enhanced_image/',
-            'default' => 't',
-            'buttons' => array(
-              'EnhancedImage' => array(
-                'label' => 'Enhanced Image',
-                'icon' => 'images/image.png',
-              ),
-            ),
-          ),
           'drupalbreaks' => array(
             'name' => 'drupalbreaks',
             'desc' => 'Plugin for inserting Drupal teaser and page breaks.',
@@ -183,67 +171,17 @@ function techmill_editor_ckeditor_profile_defaults() {
             ),
             'default' => 't',
           ),
-          'featurette' => array(
-            'name' => 'featurette',
-            'desc' => 'Bootstrap Featurette Plugin',
-            'path' => '%base_path%sites/all/modules/ckeditor_bootstrap/plugins/featurette/',
-            'buttons' => array(
-              'Featurette' => array(
-                'label' => 'Featurette',
-                'icon' => 'icons/featurette.png',
-              ),
-            ),
-          ),
-          'jumbotron' => array(
-            'name' => 'jumbotron',
-            'desc' => 'Bootstrap Jumbotron Plugin',
-            'path' => '%base_path%sites/all/modules/ckeditor_bootstrap/plugins/jumbotron/',
-            'buttons' => array(
-              'Jumbotron' => array(
-                'label' => 'Jumbotron',
-                'icon' => 'icons/jumbotron.png',
-              ),
-            ),
-          ),
-          'media' => array(
-            'name' => 'media',
-            'desc' => 'Plugin for inserting images from Drupal media module',
-            'path' => '%plugin_dir%media/',
-            'buttons' => array(
-              'Media' => array(
-                'label' => 'Media',
-                'icon' => 'images/icon.gif',
-              ),
-            ),
-            'default' => 'f',
-          ),
-          'mediaBrowser' => array(
-            'name' => 'mediaBrowser',
-            'desc' => 'Media Browser for File Upload/Browsing',
-            'path' => '/sites/all/modules/ckeditor_media/plugins/mediaBrowser/',
-          ),
           'picture_ckeditor' => array(
             'name' => 'picture_ckeditor',
             'desc' => 'Support responsive images with the Picture module.',
             'buttons' => FALSE,
-            'path' => '%base_path%sites/all/modules/picture/ckeditor/plugins/',
+            'path' => '%base_path%sites/all/modules/contrib/picture/ckeditor/plugins/',
             'default' => 't',
-          ),
-          'trifold' => array(
-            'name' => 'trifold',
-            'desc' => 'Bootstrap Trifold Plugin',
-            'path' => '%base_path%sites/all/modules/ckeditor_bootstrap/plugins/trifold/',
-            'buttons' => array(
-              'Trifold' => array(
-                'label' => 'Trifold',
-                'icon' => 'icons/trifold.png',
-              ),
-            ),
           ),
           'video_filter' => array(
             'name' => 'video_filter',
             'desc' => 'Plugin to directly embed videos with the video filter module.',
-            'path' => '%base_path%sites/all/modules/video_filter/editors/ckeditor/',
+            'path' => '%base_path%sites/all/modules/contrib/video_filter/editors/ckeditor/',
             'buttons' => array(
               'video_filter' => array(
                 'label' => 'Video filter',
