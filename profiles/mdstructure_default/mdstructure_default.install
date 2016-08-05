@@ -1,0 +1,61 @@
+<?php
+// 
+
+/**
+ * Implements hook_install().
+ *
+ * Perform actions to set up the site for this profile.
+ */
+function mdstructure_default_install() {
+
+}
+
+  /**
+    * Implements hook_install_alter()
+    */
+  function mdstructure_default_install_tasks_alter(&$tasks, $install_state) {
+    $tasks['install_finished']['function'] = 'mdstructure_default_finished_install';
+    //$tasks['install_select_profile']['display'] = FALSE;
+  }
+
+  function mdstructure_default_finished_install(&$install_state) {
+     # Copy files need for demo
+      $source = DRUPAL_ROOT . '/profiles/mdstructure_default/files';
+      $destination = DRUPAL_ROOT . '/sites/default/files';
+      md_structure_default_copy_directory($source, $destination);
+    _drupal_flush_css_js();
+  // Flush the cache of all data for the update status module.
+  if (db_table_exists('cache_update')) {
+    cache_clear_all('*', 'cache_update', TRUE);
+  }
+
+  $output = '<p>' .  st('Congratulations, you installed MD Structure Default Theme.<br /><a href="@url">Visit your new site</a>.', array('@url' => url(''))) . '</p>';
+
+    return $output;
+  }
+  /**
+    * Copy directory function
+    */
+  function md_structure_default_copy_directory($source, $destination) {
+    if (!is_dir($source))
+      exit("{$source} is not a directory.");
+
+    if (!file_exists($destination))
+      mkdir($destination);
+
+    $handle = opendir($source);
+    while (FALSE !== ($file = readdir($handle))) {
+      if ($file == '.' || $file == '..')
+        continue;
+
+      $file_path = "{$source}/{$file}";
+      if (is_dir($file_path)) {
+        md_structure_default_copy_directory($file_path, "{$destination}/{$file}");
+        continue;
+      }
+
+      copy($file_path, "{$destination}/{$file}");
+    }
+
+    closedir($handle);
+  }

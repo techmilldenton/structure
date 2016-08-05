@@ -1,0 +1,9 @@
+name = MD Structure Shop
+description = Select this profile to install demo profile for MD Structure Shop theme.
+core = 7.x
+dependencies[] = node
+dependencies[] = contact
+files[] = mdstructure_shop.profile
+
+version = "7.32"
+project = "drupal"

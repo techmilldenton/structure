@@ -1,0 +1,9 @@
+name = MD Structure Default
+description = Select this profile to install demo profile for MD Structure Default theme.
+core = 7.x
+dependencies[] = node
+dependencies[] = contact
+files[] = mdstructure_default.profile
+
+version = "7.32"
+project = "drupal"

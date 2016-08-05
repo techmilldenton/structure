@@ -1,0 +1,11 @@
+/**
+ * Stylesheet for Panopoly Profile
+ */
+
+body.maintenance-page #logo {
+  background:transparent url(logo.png) no-repeat top left;
+  height:0;
+  overflow:hidden;
+  padding-top: 141px; /* height of logo  */
+  width: 140px; /* width of logo  */
+}
