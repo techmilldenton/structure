@@ -1,0 +1,62 @@
+.bg {
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  text-align: center;
+  padding-top: 80px;
+  padding-bottom: 70px;
+}
+
+.bg-prl {
+  background-attachment: fixed;
+}
+
+.bg-1 {
+  background-image: url("../img/backgrounds/bg-1.jpg");
+  opacity: 0.9;
+}
+
+.bg-2 {
+  background-image: url("../img/backgrounds/bg-2.jpg");
+  opacity: 0.9;
+}
+
+.bg-3 {
+  background-image: url("../img/backgrounds/bg-3.jpg");
+  opacity: 0.9;
+}
+
+.bg-4 {
+  background-image: url("../img/backgrounds/bg-4.jpg");
+  opacity: 0.9;
+}
+
+.bg-5 {
+  background-image: url("../img/backgrounds/bg-5.jpg");
+  opacity: 0.9;
+}
+
+.bg-6 {
+  background-image: url("../img/backgrounds/bg-6.jpg");
+  opacity: 0.9;
+}
+
+.bg-7 {
+  background-image: url("../img/backgrounds/bg-7.jpg");
+  opacity: 0.9;
+}
+
+.bg-8 {
+  background-image: url("../img/backgrounds/bg-8.jpg");
+  opacity: 0.9;
+}
+
+.bg-9 {
+  background-image: url("../img/backgrounds/bg-9.jpg");
+  opacity: 0.9;
+}
+
+.bg-10 {
+  background-image: url("../img/backgrounds/bg-10.jpg");
+  opacity: 0.9;
+}

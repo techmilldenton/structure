@@ -1,0 +1,36 @@
+name = MD Structure Theme
+description = Structure theme
+core = 7.x
+engine = phptemplate
+
+settings[toggle_logo] = 1
+settings[toggle_name] = 0
+settings[toggle_slogan] = 0
+settings[toggle_node_user_picture] = 1
+settings[toggle_comment_user_picture] = 1
+settings[toggle_comment_user_verification] = 1
+settings[toggle_favicon] = 1
+settings[toggle_main_menu] = 1
+settings[toggle_secondary_menu] = 1
+settings[default_logo] = 1
+settings[default_favicon] = 1
+settings[toggle_fvicon] = 1
+settings[enable_preloader] = 1
+
+settings[copyright] = © 2015 Megadrupal Structure
+
+; Important Drupal regions
+
+regions[header] = Header
+regions[banner] = Banner
+regions[content] = Content
+regions[sidebar] = Sidebar
+regions[footer] = Footer
+regions[copyright] = Copyright
+
+awecontent = 1
+
+project status url = http://updates.megadrupal.com/release-history
+version = "7.x-1.1"
+core = "7.x"
+project = "md_structure"

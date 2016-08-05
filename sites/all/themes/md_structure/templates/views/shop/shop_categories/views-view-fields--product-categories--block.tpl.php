@@ -1,0 +1,1 @@
+<li class="mb-10"> <?php print $fields['name']->content;?> <?php print $fields['name_1']->content; ?></li>
