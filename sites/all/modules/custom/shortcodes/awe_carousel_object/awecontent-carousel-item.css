@@ -1,0 +1,36 @@
+.owl-theme .owl-controls .owl-page span {
+    background: none;
+	border: 2px solid #cccccc;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+	opacity: 1;
+}
+.owl-theme .owl-controls .owl-page.active span {
+	background: #F7B200;
+	border: none;
+}
+.owl-theme .owl-controls .owl-buttons div {
+    display: inline-block;
+    position: static;
+    height: 32px;
+    line-height: 32px;
+    width: 32px;
+    cursor: pointer;
+    background: #eeeeee;
+    color: #cccccc;
+    padding: 0;
+    border: none;
+    outline: none;
+    -webkit-transition: all ease 0.25s;
+    transition: all ease 0.25s;
+	border-radius: 0;
+}
+.owl-theme .owl-controls .owl-buttons div:hover {
+	background: #FFB500;
+	color: #fff;
+}
+.owl-theme .owl-controls .owl-buttons div i {
+    font-size: 16px;
+	line-height: 32px;
+}

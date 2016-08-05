@@ -1,0 +1,25 @@
+<?php
+/**
+ * File: awe_node_reset.module
+ * Author: MegaDrupal
+ * Website: http://megadrupal.com/
+ * Created: 11/10/15
+ */
+
+/**
+ * Implements hook_form_alter().
+ */
+function awe_node_reset_form_alter(&$form, &$form_state, $form_id) {
+  if (strpos($form_id, '_node_form') !== FALSE && isset($form['awe_button'])) {
+    $form['awe_button']['#markup'] = sprintf(
+      '<div class="awe-control-buttons">
+            <a class="awe-actionbutton ac-active-builder-btn" href="#">%s</a>
+            <a class="awe-actionbutton ac-disable-builder-btn" href="#" style="display: none">%s</a>
+            <a class="awe-actionbutton ac-reset-builder-btn" href="#" style="display: none">%s</a>
+        </div>',
+      t('Build page with AWEContent'), t('Disable AWEContent'), t('Reset AWEContent node')
+    );
+
+    drupal_add_js(drupal_get_path('module', 'awe_node_reset') . '/awe-node-reset.js');
+  }
+}

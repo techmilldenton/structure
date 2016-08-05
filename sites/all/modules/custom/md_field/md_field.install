@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * implements hook_field_schema()
+ */
+function md_field_field_schema($field) {
+  $schema = array(
+    "columns" => array(
+      "icon" => array(
+        "type" => "text",
+        "size" => "small",
+        "not null" => TRUE
+      ),
+      "link" =>  array(
+        "type" => "varchar",
+        "length" => 255,
+        "not null" => TRUE
+      ),
+    )
+  );
+  return $schema;
+}
+

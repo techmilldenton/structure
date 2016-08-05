@@ -1,0 +1,1 @@
+(function(a){a(document).ready(function(){a(".ac-reset-builder-btn").click(function(b){b.preventDefault();a("#edit-ac-content").val("");a(this).hide()});a("#edit-ac-status").change(function(b){var c=a("#edit-ac-content").val().trim()?JSON.parse(a("#edit-ac-content").val().trim()):[];if(c.length){a(".ac-reset-builder-btn").show()}}).trigger("change")})})(jQuery);

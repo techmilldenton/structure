@@ -1,0 +1,52 @@
+<?php
+/**
+ * File: awe_blank_object.module
+ * Author: MegaDrupal
+ * Website: http://megadrupal.com/
+ */
+
+/**
+ * implements hook_awecontent_objects_info()
+ * to declare carousel list objetcs what this module provide
+ */
+function awe_carousel_object_awecontent_objects_info() {
+	$info = array();
+	$module_path = drupal_get_path('module', 'awe_carousel_object');
+
+	$info['carousel'] = array(
+	    'js' => array(
+	      $module_path . '/awecontent-carousel-item.js' => array('weight' => 999)
+	    ),
+	    'theme_callback' => 'awe_carousel',
+	);
+
+	return $info;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function awe_carousel_object_theme() {
+	$themes['awe_carousel'] = array(
+	    'path' => drupal_get_path('module', 'awe_carousel_object'),
+	    'template' => 'awe-carousel',
+	    'file' => 'theme.inc',
+	    'variables' => array(
+	      'settings' => NULL,
+	      'class_random' => NULL,
+	      'node' => NULL
+	    ),
+	);
+
+	return $themes;
+}
+
+
+/**
+ * Implement hook_preprocess_page()
+ */
+function awe_carousel_object_preprocess_page(&$vars) {
+  	$path = drupal_get_path('module', 'awe_carousel_object');
+  	drupal_add_css($path . '/awecontent-carousel-item.css');
+  	drupal_add_js(drupal_get_path('module', 'awe_carousel_object') . '/carousel.js');
+}

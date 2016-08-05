@@ -1,0 +1,51 @@
+.testi .quote-content:after,
+.testi .quote-content:before {
+    opacity: 0.6;
+}
+.testi .quote-content:before {
+	content: url("img/icon-double-quotes-left2.png");
+    left: 0;
+}
+.testi .quote-content:after {
+    content: url("img/icon-double-quotes-right2.png");
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.gray-quote .testi .quote-content:before {
+	content: url("img/icon-double-quotes-left.png");
+    left: 0;
+}
+.gray-quote .quote .quote-content:before {
+	content: url("img/icon-double-quotes-left.png");
+}
+.gray-quote .testi .quote-content:after {
+    content: url("img/icon-double-quotes-right.png");
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.color-quote .testi .quote-content:before {
+	content: url("img/icon-double-quotes-left-color.png");
+    left: 0;
+}
+.color-quote .quote .quote-content:before {
+	content: url("img/icon-double-quotes-left-color.png");
+}
+.color-quote .testi .quote-content:after {
+    content: url("img/icon-double-quotes-right-color.png");
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.testi p {
+    line-height: 35px;
+    font-style: italic;
+	color: rgba(255, 255, 255, 0.9);
+}
+.testi .box-name {
+    clear: left;
+}
+.testi .box-name h4 {
+    color: #FFB700;
+}

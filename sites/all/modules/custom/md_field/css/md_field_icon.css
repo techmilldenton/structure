@@ -1,0 +1,25 @@
+.icon-markup i,
+.icon-popup i{
+  font-size: 24px;
+  padding: 5px;
+}
+.icon-markup i.active,
+.icon-popup i.active{
+  background: #ccc;
+}
+
+.icon-preview h3,
+.social-icon-preview h3{
+    cursor: pointer;
+}
+.icon-preview i{
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+}
+
+.icon-preview i:before{
+    background: #ccc;
+    padding: 5px;
+}

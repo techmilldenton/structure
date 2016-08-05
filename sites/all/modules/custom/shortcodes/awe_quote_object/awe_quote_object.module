@@ -1,0 +1,51 @@
+<?php
+/**
+ * File: awe_blank_object.module
+ * Author: MegaDrupal
+ * Website: http://megadrupal.com/
+ */
+
+/**
+ * implements hook_awecontent_objects_info()
+ * to declare parallax image list objetcs what this module provide
+ */
+function awe_quote_object_awecontent_objects_info() {
+	$info = array();
+	$module_path = drupal_get_path('module', 'awe_quote_object');
+
+	$info['quote'] = array(
+	    'js' => array(
+	      $module_path . '/awecontent-quote-item.js' => array('weight' => 999)
+	    ),
+	    'theme_callback' => 'awe_quote',
+	);
+
+	return $info;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function awe_quote_object_theme() {
+	$themes['awe_quote'] = array(
+	    'path' => drupal_get_path('module', 'awe_quote_object'),
+	    'template' => 'awe-quote',
+	    'file' => 'theme.inc',
+	    'variables' => array(
+	      'settings' => NULL,
+	      'class_random' => NULL,
+	      'node' => NULL
+	    ),
+	);
+
+	return $themes;
+}
+
+
+/**
+ * Implement hook_preprocess_page()
+ */
+function awe_quote_object_preprocess_page(&$vars) {
+  	$path = drupal_get_path('module', 'awe_quote_object');
+  	drupal_add_css($path . '/awecontent-quote-item.css');
+}

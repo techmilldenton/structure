@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Structure Default feature.
+ */
+
+include_once 'structure_default.features.inc';

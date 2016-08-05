@@ -1,0 +1,1 @@
+!function(e){Drupal.behaviors.fullscreen_export={attach:function(t,r){e("#edit-export-btn",t).click(function(){var c=[];e("#edit-sliders input[class=form-checkbox]:checked",t).each(function(){c.push(e(this).val())}),e(this).attr("href",r.basePath+"?q=/admin/structure/fullscreen-slider/export/&sliders="+c.join())})}}}(jQuery);

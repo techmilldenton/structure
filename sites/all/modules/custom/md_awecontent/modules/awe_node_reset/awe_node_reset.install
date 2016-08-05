@@ -1,0 +1,15 @@
+<?php
+/**
+ * File: awe_node_reset.install
+ * Author: MegaDrupal
+ * Website: http://megadrupal.com/
+ * Created: 11/11/15
+ */
+
+function awe_node_reset_install() {
+  //Set weight module awecontent
+  db_update('system')
+    ->fields(array('weight' => 1000))
+    ->condition('name', 'awe_node_reset', '=')
+    ->execute();
+}

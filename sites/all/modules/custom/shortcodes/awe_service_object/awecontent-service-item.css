@@ -1,0 +1,22 @@
+.service-item .box-media  .pull-left,
+.ts-service .box-media  .pull-left {
+	background: #FFB500;
+}
+
+.service-item .box,
+.ts-service .box {
+	width: 100%;
+}
+
+.uppercase {
+	text-transform: uppercase;
+}
+.lowercase {
+	text-transform: lowercase;
+}
+.capitalize {
+	text-transform: capitalize;
+}
+[class^="hga-"]:before, [class*=" hga-"]:before {
+	width: auto !important;
+}

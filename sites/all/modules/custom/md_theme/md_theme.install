@@ -1,0 +1,43 @@
+<?php
+/**
+ * Implements hook_install().
+ */
+function md_theme_install() {
+  $schema['block'] = array();
+  md_theme_schema_alter($schema);
+  foreach ($schema['block']['fields'] as $field => $spec) {
+    if (db_field_exists('block', $field)) {
+      watchdog('system', 'Module install: Attempt to recreate field: "%field", when it already exists.', array('%field' => $field), WATCHDOG_WARNING);
+    }
+    else {
+      db_add_field('block', $field, $spec);
+    }
+  }
+}
+
+/**
+ * Implements hook_schema_alter().
+ *
+ * Other modules, such as i18n_block also modify the block database table.
+ */
+function md_theme_schema_alter(&$schema) {
+  if (isset($schema['block'])) {
+    $schema['block']['fields']['data'] = array(
+      'type' => 'text',
+      'not null' => FALSE,
+      'size' => 'big',
+      'description' => 'A serialized array of custom block.',
+    );
+  }
+}
+/**
+ * Implements hook_uninstall().
+ */
+function md_theme_uninstall() {
+  $schema['block'] = array();
+  md_theme_schema_alter($schema);
+  foreach ($schema['block']['fields'] as $field => $specs) {
+    db_drop_field('block', $field);
+  }
+}
+

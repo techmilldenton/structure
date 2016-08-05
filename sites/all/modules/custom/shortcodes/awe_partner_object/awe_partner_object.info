@@ -1,0 +1,7 @@
+name = AWEContent Partner Object
+description = Partner object for AWEContent module
+core = 7.x
+version = 7.x-1.0
+package = MD Shortcodes
+
+dependencies[] = awecontent

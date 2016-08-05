@@ -1,0 +1,7 @@
+name = MD Field
+description = Support popup select icon, add social field type, add view formatter media type.
+core = 7.x
+dependencies[] = fontello
+version = 7.x-1.0
+package = MegaDrupal
+

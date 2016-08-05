@@ -1,0 +1,13 @@
+.uppercase {
+	text-transform: uppercase;
+}
+.lowercase {
+	text-transform: lowercase;
+}
+.capitalize {
+	text-transform: capitalize;
+}
+.partner-item .box-image img,
+.item-partner .box-image img {
+    width: auto;
+}

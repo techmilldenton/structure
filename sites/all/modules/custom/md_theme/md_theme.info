@@ -1,0 +1,5 @@
+name = MD Theme
+description = Custom feature for theme MegaDrupal.
+core = 7.x
+dependencies[] = media (2.x)
+package = MegaDrupal

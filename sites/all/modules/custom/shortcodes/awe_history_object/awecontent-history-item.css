@@ -1,0 +1,8 @@
+.history-item .heading-title,
+.item-history .heading-title{
+	margin-bottom: 15px;
+}
+.history-item .heading-title h5,
+.item-history .heading-title h5 {
+	line-height: 30px;
+}

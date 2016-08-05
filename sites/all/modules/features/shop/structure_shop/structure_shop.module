@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Structure Shop feature.
+ */
+
+include_once 'structure_shop.features.inc';

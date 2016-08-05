@@ -1,0 +1,1 @@
+!function(e){window.MegaSlider={version:1,name:"Md Mega Slider",author:"Megadrupal.com"},MegaSlider.Main=function(){this.panel=new MegaSlider.Panel},MegaSlider.Main.prototype={constructor:MegaSlider.Main,init:function(){this.panel.init()}},e(document).ready(function(){var e=new MegaSlider.Main;e.init()})}(jQuery);

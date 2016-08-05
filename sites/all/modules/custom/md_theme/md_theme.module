@@ -1,0 +1,263 @@
+<?php
+
+function md_theme_theme($existing, $type, $theme, $path) {
+  return array(
+    'contact_info' => array(
+      'variables' => array(),
+      'template' => '/templates/contact-info',
+    ),
+    'about_us' => array(
+      'variables' => array(),
+      'template' => '/templates/about-us',
+    ),
+    'footer' => array(
+      'variables' => array(),
+      'template' => '/templates/social',
+    ),
+    'header_s1' => array(
+      'variables' => array(),
+      'template' => '/templates/header-1',
+    ),
+    'header_s2' => array(
+      'variables' => array(),
+      'template' => '/templates/header-2',
+    ),
+    'header_s3' => array(
+      'variables' => array(),
+      'template' => '/templates/header-3',
+    ),
+    'header_s4' => array(
+      'variables' => array(),
+      'template' => '/templates/header-4',
+    ),
+    'header_st5' => array(
+      'variables' => array(),
+      'template' => '/templates/header-5',
+    ),
+    'header_s6' => array(
+      'variables' => array(),
+      'template' => '/templates/header-6',
+    ),
+    'header_s7' => array(
+      'variables' => array(),
+      'template' => '/templates/header-7',
+    ),
+    'header_s8' => array(
+      'variables' => array(),
+      'template' => '/templates/header-8',
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function md_theme_block_info() {
+  $blocks['footer'] = array(
+    'info' => t('Structure Social'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['contact_info'] = array(
+    'info' => t('Contact Information'),
+  );
+  $blocks['about_us'] = array(
+    'info' => t('About Us'),
+  );
+  $blocks['header_s1'] = array(
+    'info' => t('Header Style 1'),
+  );
+  $blocks['header_s2'] = array(
+    'info' => t('Header Style 2'),
+  );
+  $blocks['header_s3'] = array(
+    'info' => t('Header Style 3'),
+  );
+  $blocks['header_s4'] = array(
+    'info' => t('Header Style 4'),
+  );
+  $blocks['header_st5'] = array(
+    'info' => t('Header Style 5'),
+  );
+  $blocks['header_s6'] = array(
+    'info' => t('Header Style 6'),
+  );
+  $blocks['header_s7'] = array(
+    'info' => t('Header Style 7'),
+  );
+  $blocks['header_s8'] = array(
+    'info' => t('Header Style 8'),
+  );
+
+  return $blocks;
+}
+
+function md_theme_preprocess_footer(&$vars) {
+  $social = variable_get('icon_footer', '');
+  if($social != ''){
+    $social_array = explode(',', $social);
+    $social_array = array_chunk($social_array, 3);
+    $vars['social'] = $social_array;
+  }
+}
+
+/**
+ * Implements hook_block_configure().
+ * @param string $delta
+ */
+function md_theme_block_configure($delta = '') {
+  switch ($delta) {
+    case 'footer':
+      $icon_bundles = icon_bundles();
+      $icons = array();
+      foreach ($icon_bundles as $bundles) {
+        $icons[] = md_icon_bundle_list($bundles);
+      }
+      $markup = '<ul id="sortable">
+                  <li class="icon-sort">
+                    <div class="toolbar">
+                        <a class="delete-icon" href="#">Delete</a>
+                        <a class="clone-icon" href="#">Clone</a>
+                    </div>
+                    <div class="wrap-icon">
+
+                    </div>
+                  </li>
+                </ul>';
+      $form_popup = '<div class="form-popup">
+                        <ul >
+                          <li><div class="choose-icon">Choose Icon<a href="#"><i class=""></i></a></div></li>
+                          <li><label>Enter Links</label><input class="form-text icon-link" type="text" name="link-icon" value="" /></li>
+                        </ul>
+                      </div>';
+      $form['#attached']['library'] = array(
+        array('system', 'ui.dialog'),
+        array('system', 'ui.sortable'),
+      );
+      $form['#attached']['js'] = array(
+        drupal_get_path('module', 'md_theme') . '/js/social.js'
+      );
+      $form['#attached']['css'] = array(
+        drupal_get_path('module', 'md_theme') . '/css/module-style.css'
+      );
+      $form['footer_settings'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Footer settings'),
+        '#collapsible' => TRUE,
+        '#collapsed' => FALSE,
+      );
+      $form['footer_settings']['icon_footer'] = array(
+        '#type' => 'hidden',
+        '#default_value' => variable_get('icon_footer', ''),
+        '#attributes' => array(
+          'class' => array('icon-footer')
+        )
+      );
+      $form['footer_settings']['popup_form'] = array(
+        '#type' => 'markup',
+        '#markup' => $form_popup
+      );
+      $form['footer_settings']['popup_icon'] = array(
+        '#type' => 'markup',
+        '#markup' => '<div class="icon-popup">' . drupal_render($icons) . '</div>',
+      );
+      $form['footer_settings']['markup_icon'] = array(
+        '#type' => 'markup',
+        '#markup' => '<div class="list-icon">' . $markup . '</div>',
+      );
+
+      return $form;
+
+      break;
+  }
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function md_theme_block_save($delta = '', $edit = array()) {
+  switch ($delta) {
+    case 'footer':
+      variable_set('icon_footer', $edit['icon_footer']);
+      break;
+  }
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function md_theme_block_view($delta = '') {
+  switch ($delta) {
+    case 'footer':
+      md_icon_load();
+      $block['content'] = theme('footer', array('config' => NULL));
+      break;
+    case 'contact_info':
+      $block['content'] = theme('contact_info', array('config' => NULL));
+      break;
+    case 'about_us':
+      $block['content'] = theme('about_us', array('config' => NULL));
+      break;
+    case 'header_s1':
+      $block['content'] = theme('header_s1', array('config' => NULL));
+      break;
+    case 'header_s2':
+      $block['content'] = theme('header_s2', array('config' => NULL));
+      break;
+    case 'header_s3':
+      $block['content'] = theme('header_s3', array('config' => NULL));
+      break;
+    case 'header_s4':
+      $block['content'] = theme('header_s4', array('config' => NULL));
+      break;
+    case 'header_st5':
+      $block['content'] = theme('header_st5', array('config' => NULL));
+      break;
+    case 'header_s6':
+      $block['content'] = theme('header_s6', array('config' => NULL));
+      break;
+    case 'header_s7':
+      $block['content'] = theme('header_s7', array('config' => NULL));
+      break;
+    case 'header_s8':
+      $block['content'] = theme('header_s8', array('config' => NULL));
+      break;
+  }
+  return $block;
+}
+
+function md_icon_load() {
+  $items = icon_bundles();
+  $md_prtb_output = '';
+  //dsm($items);
+  foreach($items as $bundle => $icons) {
+    if(($icons['settings'] !=  null ) && ($icons['settings']['tag'] ==  'i' )) {
+      foreach($icons['icons'] as $icon_value => $icon_name) {
+        //$md_prtb_icon_temp = theme('icon',array('attribute' => '','icon' => $icon_value, 'bundle' => $bundle));
+        //$md_prtb_output .= '<option value="'.$icon_value.'|'.$bundle.'">'.$icon_name.'</option>';
+        $md_prtb_output .= theme('icon',array('attributes' => array('class' => array('js-body-selector-icon')),'icon' => $icon_value, 'bundle' => $bundle));
+      }
+    }
+  }
+  return t($md_prtb_output);
+}
+
+/**
+ * Implement hook_awecontent_block_support()
+ * @param string $delta
+ * @param string $module
+ * @return array
+ */
+function md_theme_awecontent_block_support($delta = '', $module = '') {
+  global  $base_url;
+  $output = array();
+  $path_theme = $base_url . '/' . drupal_get_path('theme', 'md_structure');
+  // process for block of views module
+  $css = array();
+  $js = array();
+
+  $js[] = $path_theme . '/js/front/plugins/bootstrap.min.js';
+  $js[] = $path_theme . '/js/front/plugins/slick.min.js';
+  $js[] = $path_theme . '/js/front/main.js';
+  $output = array('css' => $css, 'js' => $js);
+  return $output;
+}

@@ -1,0 +1,51 @@
+<?php
+/**
+ * File: awe_blank_object.module
+ * Author: MegaDrupal
+ * Website: http://megadrupal.com/
+ */
+
+/**
+ * implements hook_awecontent_objects_info()
+ * to declare about list objetcs what this module provide
+ */
+function awe_client_object_awecontent_objects_info() {
+	$info = array();
+	$module_path = drupal_get_path('module', 'awe_client_object');
+
+	$info['client'] = array(
+	    'js' => array(
+	      $module_path . '/awecontent-client-item.js' => array('weight' => 999)
+	    ),
+	    'theme_callback' => 'awe_client',
+	);
+
+	return $info;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function awe_client_object_theme() {
+	$themes['awe_client'] = array(
+	    'path' => drupal_get_path('module', 'awe_client_object'),
+	    'template' => 'awe-client',
+	    'file' => 'theme.inc',
+	    'variables' => array(
+	      'settings' => NULL,
+	      'class_random' => NULL,
+	      'node' => NULL
+	    ),
+	);
+
+	return $themes;
+}
+
+
+/**
+ * Implement hook_preprocess_page()
+ */
+function awe_client_object_preprocess_page(&$vars) {
+  	$path = drupal_get_path('module', 'awe_client_object');
+  	drupal_add_css($path . '/awecontent-client-item.css');
+}

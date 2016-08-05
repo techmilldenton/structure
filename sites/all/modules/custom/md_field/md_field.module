@@ -1,0 +1,214 @@
+<?php
+/**
+ * @File: md_course.module
+ * @Author: MegaDrupal
+ * Website: http://megadrupal.com/
+ */
+/**
+ * Implements hook_theme().
+ */
+function md_field_theme($existing, $type, $theme, $path) {
+  $path = drupal_get_path("module", "md_field") . "/templates";
+  return array(
+    'social_link' => array(
+      'path' => $path,
+      'template' => 'social-link',
+      'variables' => array('items' => NULL, 'field' => NULL, 'label' => NULL),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_info().
+ */
+function md_field_field_info() {
+  return array(
+    'md_social_field' => array(
+      'label' => t('Social Field'),
+      'description' => t('This field support Icon Field and Field'),
+      'default_widget' => 'md_field_social_widget',
+      'default_formatter' => 'md_field_social_default',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function md_field_field_widget_info() {
+  return array(
+    'md_field_social_widget' => array(
+      'label' => t('Icon Social Field'),
+      'field types' => array('md_social_field'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function md_field_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $icon_bundles = icon_bundles();
+  $markup = array();
+  foreach ($icon_bundles as $bundles) {
+    $markup[] = md_icon_bundle_list($bundles);
+  }
+  $path = drupal_get_path('module', 'md_field');
+  $icon = isset($items[$delta]['icon']) ? $items[$delta]['icon'] : '';
+  $element += array(
+    '#delta' => $delta,
+    '#type' => 'container',
+    '#attached' => array(
+      'library' => array(
+        array('system', 'ui.dialog'),
+      ),
+      'js' => array($path . '/js/md_social_field.js'),
+      'css' => array($path . '/css/md_field_icon.css'),
+    ),
+    '#attributes' => array(
+      'class' => array('social-container')
+    )
+  );
+  switch ($instance["widget"]["type"]) {
+    case 'md_field_social_widget':
+      if ($delta == 0) {
+        $element['markup'] = array(
+          '#markup' => '<div class="icon-markup">' . drupal_render($markup) . '</div>'
+        );
+      }
+      $element['preview'] = array(
+        '#type' => 'markup',
+        '#markup' => '<h3 class="social-icon-preview"><strong>Choose Icon: </strong><i class="' . $icon . '"></i></h3>',
+      );
+      $element['icon'] = array(
+        '#type' => 'textfield',
+        '#attributes' => array(
+          'class' => array('icon-value')
+        ),
+        '#size' => 40,
+        '#default_value' => $icon
+      );
+      $element['link'] = array(
+        '#type' => 'textfield',
+        '#title' => 'Social Link',
+        '#size' => 40,
+        '#maxlength' => 255,
+        '#default_value' => isset($items[$delta]['link']) ? $items[$delta]['link'] : ''
+      );
+      break;
+  }
+  return $element;
+}
+
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function md_field_field_formatter_info() {
+  return array(
+    'md_field_social_default' => array(
+      'label' => t('Social Default'),
+      'field types' => array('md_social_field'),
+    )
+  );
+}
+
+/**
+ * Implements hook_field_is_empty().
+ */
+function md_field_field_is_empty($item, $field) {
+  if ($field['type'] == 'md_social_field') {
+    if (empty($item["icon"]) || empty($item["link"])) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function md_field_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $list_items = array();
+
+  switch ($display['type']) {
+    case 'md_field_social_default':
+      foreach ($items as $delta => $item) {
+        $bundle = explode("|", $item['icon']);
+        $icon = array(
+          '#theme' => 'icon',
+          '#bundle' => $bundle[0],
+          '#icon' => $bundle[1],
+        );
+        $link = l(
+          drupal_render($icon),
+          $item['link'],
+          array(
+            'html' => TRUE,
+            'attributes' => array(
+              'target' => '_blank',
+            )
+          )
+        );
+        $element[$delta] = array('#markup' => $link);
+      }
+      break;
+  }
+  return $element;
+}
+
+
+/**
+ * @param $element
+ * @param $form_state
+ * @param $context
+ */
+function md_field_field_widget_form_alter(&$element, &$form_state, $context) {
+  if ($context ['field']['type'] == 'icon_field') {
+    if ($element['#delta'] == 0) {
+      $icon_bundles = icon_bundles();
+      $markup = array();
+      foreach ($icon_bundles as $bundles) {
+        $markup[] = md_icon_bundle_list($bundles);
+      }
+      $element['icon_popup'] = array(
+        '#type' => 'markup',
+        '#markup' => '<div class="icon-popup">' . drupal_render($markup) . '</div>',
+      );
+    }
+    $element['preview'] = array(
+      '#type' => 'markup',
+      '#markup' => '<h3 class="icon-preview"><strong>Choose Icon: </strong><i class="icon-glass"></i></h3>',
+    );
+    $element['#attributes']['class'][] = 'field-icon-container';
+    $element['#attached']['js'] = array(
+      drupal_add_library('system', 'ui.dialog'),
+      drupal_add_js(drupal_get_path('module', 'md_field') . '/js/icon-alter.js')
+    );
+    $element['#attached']['css'] = array(
+      drupal_add_css(drupal_get_path('module', 'md_field') . '/css/md_field_icon.css')
+    );
+  }
+}
+
+
+function md_icon_bundle_list($bundle) {
+  $build = array();
+  foreach ($bundle['icons'] as $icon => $value) {
+    $build[] = array(
+      '#theme' => 'icon',
+      '#bundle' => $bundle['name'],
+      '#icon' => $icon,
+      '#attributes' => array(
+        'title' => $icon,
+        'data-value' => $bundle['name'] . '|' . $icon,
+        'data-icon' => $icon
+      ),
+    );
+  }
+  $bundle_context = $bundle;
+  drupal_alter('icon_bundle_list', $build, $bundle_context);
+  return $build;
+}
+

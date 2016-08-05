@@ -1,0 +1,7 @@
+name = AweContent Node Reset
+description = Provide button allow to reset awecontent node to blank
+core = 7.x
+version = 7.x-1.0
+package = MegaDrupal
+
+dependencies[] = awecontent

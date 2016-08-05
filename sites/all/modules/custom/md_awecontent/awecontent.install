@@ -1,0 +1,183 @@
+<?php
+/**
+ * @File: awecontent.install
+ * @Author: MegaDrupal
+ * Website: http://megadrupal.com/
+ */
+
+/**
+ * Implement hook_schema()
+ */
+function awecontent_schema() {
+  return array(
+    'awecontent_nodes' => array(
+      'description' => 'This table contains data of nodes what created by AWEContent Builder',
+      'fields' => array(
+        'id' => array(
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'size' => 'big'
+        ),
+        'nid' => array(
+          'type' => 'int',
+          'size' => 'big',
+          'unsigned' => TRUE,
+          'not null' => TRUE
+        ),
+        'status' => array(
+          'type' => 'int',
+          'size' => 'tiny',
+          'not null' => TRUE,
+          'unsigned' => TRUE,
+          'default' => 0
+        ),
+        'container_full_width' => array(
+          'type' => 'int',
+          'size' => 'tiny',
+          'not null' => TRUE,
+          'unsigned' => TRUE,
+          'default' => 0
+        ),
+        'build_data' => array(
+          'type' => 'text',
+          'size' => 'big',
+          'not null' => FALSE
+        )
+      ),
+      'primary key' => array('id'),
+      'indexes' => array(
+        'ac_id' => array('id'),
+        'ac_nid' => array('nid')
+      )
+    ),
+    'awecontent_templates' => array(
+      'description' => 'This table contains data of templates what created by AWEContent Builder',
+      'fields' => array(
+        'tid' => array(
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'size' => 'big'
+        ),
+        'title' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => FALSE
+        ),
+        'uid' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE
+        ),
+        'type' => array(
+          'type' => 'varchar',
+          'length' => '255',
+          'not null' => TRUE,
+          'default' => ''
+        ),
+        'thumbnail' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => FALSE
+        ),
+        'data' => array(
+          'type' => 'text',
+          'size' => 'big',
+          'not null' => FALSE
+        ),
+        'category' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => FALSE
+        ),
+        'created' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE
+        )
+      ),
+      'primary key' => array('tid'),
+      'indexes' => array(
+        'ac_template_id' => array('tid')
+      ),
+      'foreign keys' => array(
+        'user' => array(
+          'table' => 'user',
+          'columns' => array('uid' => 'uid')
+        )
+      )
+    ),
+    'awecontent_favourite_templates' => array(
+      'description' => 'manage favourite template by user',
+      'fields' => array(
+        'tid' => array(
+          'type' => 'varchar',
+          'not null' => TRUE,
+          'length' => '255'
+        ),
+        'uid' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE
+        )
+      ),
+      'primary key' => array('tid', 'uid')
+    )
+  );
+}
+
+/**
+ * implements hook_install()
+ */
+function awecontent_install() {
+  //Disable module overlay
+  db_update('system')
+    ->fields(array('status' => 0))
+    ->condition('name', 'overlay')
+    ->condition('type', 'module')
+    ->execute();
+
+  //Set weight module awecontent
+  db_update('system')
+    ->fields(array('weight' => 999))
+    ->condition('name', 'awecontent', '=')
+    ->execute();
+
+  $section_categories = array(
+    'header' => t('Header'),
+    'footer' => t('Footer'),
+    'content' => t('Content'),
+  );
+  variable_set('ac_section_template_categories', $section_categories);
+}
+
+/**
+ * implements hook_uninstall
+ */
+function awecontent_uninstall() {
+  variable_del('awecontent_permissions');
+  variable_del('ac_section_template_categories');
+  variable_del('awe_reset_msg_node');
+  variable_del('reset_promote_node');
+  variable_del('awe_reset_promote_nodes');
+  variable_del('ac_theme_support');
+
+  foreach (node_type_get_names() as $node_type => $name) {
+    variable_del("ac_{$node_type}_container_full_width");
+    variable_del("ac_{$node_type}_enabled");
+    variable_del("ac_{$node_type}_include_bootstrap");
+    variable_del("ac_{$node_type}_google_font");
+    variable_del("ac_{$node_type}_unload_google_fonts");
+    variable_del("ac_{$node_type}_page_wrapper_element");
+    variable_del("ac_temp_layout_{$node_type}");
+  }
+}
+
+/**
+ * implements hook_update_N
+ */
+function awecontent_update_7002() {
+  $schema = awecontent_schema();
+  db_change_field('awecontent_favourite_templates', 'tid', 'tid', $schema['awecontent_favourite_templates']['fields']['tid']);
+}
