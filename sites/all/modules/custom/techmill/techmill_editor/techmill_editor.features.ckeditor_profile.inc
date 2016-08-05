@@ -171,12 +171,17 @@ function techmill_editor_ckeditor_profile_defaults() {
             ),
             'default' => 't',
           ),
-          'picture_ckeditor' => array(
-            'name' => 'picture_ckeditor',
-            'desc' => 'Support responsive images with the Picture module.',
-            'buttons' => FALSE,
-            'path' => '%base_path%sites/all/modules/contrib/picture/ckeditor/plugins/',
-            'default' => 't',
+          'media' => array(
+            'name' => 'media',
+            'desc' => 'Plugin for inserting images from Drupal media module',
+            'path' => '%plugin_dir%media/',
+            'buttons' => array(
+              'Media' => array(
+                'label' => 'Media',
+                'icon' => 'images/icon.gif',
+              ),
+            ),
+            'default' => 'f',
           ),
           'video_filter' => array(
             'name' => 'video_filter',

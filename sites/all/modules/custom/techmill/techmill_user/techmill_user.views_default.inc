@@ -92,29 +92,12 @@ function techmill_user_views_default_views() {
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: User: Profile Image */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_user_image']['id'] = 'field_user_image';
   $handler->display->display_options['fields']['field_user_image']['table'] = 'field_data_field_user_image';
   $handler->display->display_options['fields']['field_user_image']['field'] = 'field_user_image';
   $handler->display->display_options['fields']['field_user_image']['label'] = '';
   $handler->display->display_options['fields']['field_user_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_user_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_user_image']['settings'] = array(
-    'image_style' => 'user_square',
-    'image_link' => 'content',
-    'class' => 'img-circle',
-    'linked_field' => array(
-      'linked' => 0,
-      'destination' => '',
-      'advanced' => array(
-        'title' => '',
-        'target' => '',
-        'class' => '',
-        'rel' => '',
-        'text' => '',
-      ),
-    ),
-  );
   /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
