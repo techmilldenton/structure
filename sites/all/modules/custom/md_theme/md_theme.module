@@ -186,6 +186,8 @@ function md_theme_block_save($delta = '', $edit = array()) {
  * Implements hook_block_view().
  */
 function md_theme_block_view($delta = '') {
+  $block = array();
+  
   switch ($delta) {
     case 'footer':
       md_icon_load();
