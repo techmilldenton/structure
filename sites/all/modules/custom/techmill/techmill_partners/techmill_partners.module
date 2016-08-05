@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Techmill Partners feature.
+ */
+
+include_once 'techmill_partners.features.inc';

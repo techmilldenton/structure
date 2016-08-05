@@ -1,0 +1,60 @@
+<?php
+/**
+ * @file
+ * Code for the TechMill User feature.
+ */
+
+include_once 'techmill_user.features.inc';
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function techmill_user_ds_fields_info($entity_type) {
+	$fields = array();
+	$fields['user_social_links'] = array(
+		'title' => t('TechMill: Social Links'),
+		'field_type' => DS_FIELD_TYPE_FUNCTION,
+		'function' => '_techmill_user_ds_field_user_social_links',
+		);
+
+	return array('user' => $fields);
+}
+
+/**
+ * Custom field displaying a users social media accounts.
+ */
+function _techmill_user_ds_field_user_social_links($field) {
+	if (isset($field['entity_type']) && $field['entity_type'] == 'user') {
+		$entity = $field['entity'];
+
+		// Get social links
+		$social = array();
+		$social['twitter'] = (!empty($entity->field_user_twitter)) ? $entity->field_user_twitter['und'][0]['safe_value'] : '';
+		$social['facebook'] = (!empty($entity->field_user_facebook)) ? $entity->field_user_facebook['und'][0]['safe_value'] : '';
+		$social['linkedin'] = (!empty($entity->field_user_linkedin)) ? 'in/'.$entity->field_user_linkedin['und'][0]['safe_value'] : '';
+		$social['github'] = (!empty($entity->field_user_github)) ? $entity->field_user_github['und'][0]['safe_value'] : '';
+		// Remove empty links
+		$social = array_filter($social);
+		$social_list = array(
+			'attributes' => array(
+				'class' => 'user-social-media',
+				),
+			);
+
+		foreach ($social as $key => $value) {
+			$social_list['items'][] = _techmill_social_wrapper($key, $value);
+		}
+
+		return theme('item_list', $social_list);
+	}
+	return FALSE;
+}
+
+/*
+ * Helper function to create icon wrappers.
+ */
+function _techmill_user_social_wrapper($social, $value) {
+	$output = '<a class="social-icon" href="http://'.$social.'.com/'.$value.'" title="'.ucfirst($social).'" target="_blank"><i class="icon ion-social-'.$social.'"></i></a>';
+
+	return $output;
+}

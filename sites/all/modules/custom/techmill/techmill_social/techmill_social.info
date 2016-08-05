@@ -1,0 +1,4 @@
+name = Techmill Social
+core = 7.x
+package = TechMill
+version = 7.x-1.0

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the TechMill Image feature.
+ */
+
+include_once 'techmill_image.features.inc';

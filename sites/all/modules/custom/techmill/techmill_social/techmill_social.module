@@ -1,0 +1,137 @@
+<?php
+
+/**
+ * @file techmill_social.module
+ * TODO: Enter file description here.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function techmill_social_block_info() {
+  // This example comes from node.module.
+  $blocks['techmill_social'] = array(
+    'info' => t('TechMill Social'),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function techmill_social_block_view($delta = '') {
+  $block = array();
+
+  // Get social accounts
+  $social = array();
+  $social['twitter'] = variable_get('site_twitter', '');
+  $social['facebook'] = variable_get('site_facebook', '');
+  $social['linkedin'] = (variable_get('site_linkedin', '')) ? 'in/'.variable_get('site_linkedin', '') : '';
+  $social['github'] = variable_get('site_github', '');
+  $social['meetup'] = variable_get('site_meetup', '');
+
+  $social = array_filter($social);
+  $markup = '';
+  foreach ($social as $key => $value) {
+    $markup .= _techmill_social_wrapper($key, $value);
+  }
+
+  switch ($delta) {
+    case 'techmill_social':
+      $block['subject'] = t('Social Media');
+      $block['content'] = array(
+        '#markup' => $markup,
+      );
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function techmill_social_form_system_site_information_settings_alter(&$form, &$form_state) {
+    
+    $form['site_information']['addthis'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('AddThis Settings'),
+    );
+    $form['site_information']['addthis']['addthis_pubid'] = array(
+      '#type' => 'textfield',
+      '#title' => t('AddThis Publishing ID'),
+      '#description' => t('Enter your AddThis pubid. ie, ra-54305991214faa92'),
+      '#default_value' => variable_get('addthis_pubid', ''),
+      '#size' => 60,
+      '#maxlength' => 128,
+    );
+
+    $form['site_information']['social_info'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Social Information'),
+      '#description' => t('Enter the social information for the site.'),
+    );
+    $form['site_information']['social_info']['site_twitter'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Twitter Username'),
+      '#description' => t('Enter your Twitter username only. http://twitter.com/!username', array('!username' => '<strong>username</strong>')),
+      '#default_value' => variable_get('site_twitter', ''),
+      '#size' => 60,
+      '#maxlength' => 128,
+    );
+    $form['site_information']['social_info']['site_facebook'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Facebook ID'),
+      '#description' => t('Enter your Facebook username only. http://facebook.com/!username', array('!username' => '<strong>username</strong>')),
+      '#default_value' => variable_get('site_facebook', ''),
+      '#size' => 60,
+      '#maxlength' => 128,
+    );
+    $form['site_information']['social_info']['site_github'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Github Username'),
+      '#description' => t('Enter your Github username only. http://github.com/!username', array('!username' => '<strong>username</strong>')),
+      '#default_value' => variable_get('site_github', ''),
+      '#size' => 60,
+      '#maxlength' => 128,
+    );
+    $form['site_information']['social_info']['site_meetup'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Meetup Group'),
+      '#description' => t('Enter your Meetup group name. http://meetup.com/!username', array('!username' => '<strong>username</strong>')),
+      '#default_value' => variable_get('site_meetup', ''),
+      '#size' => 60,
+      '#maxlength' => 128,
+    );
+    $form['site_information']['social_info']['site_linkedin'] = array(
+      '#type' => 'textfield',
+      '#title' => t('LinkedIn ID'),
+      '#description' => t('Enter your LinkedIn ID only. http://linkedin.com/!username', array('!username' => '<strong>in/username</strong>')),
+      '#default_value' => variable_get('site_linkedin', ''),
+      '#size' => 60,
+      '#maxlength' => 128,
+    );
+}
+
+/*
+ * Helper function to create icon wrappers.
+ */
+function _techmill_social_wrapper($social, $value) {
+  $output = '<a href="http://'.$social.'.com/'.$value.'" title="'.ucfirst($social).'" target="_blank"><i class="icon fontello social-'.$social.'"></i></a>';
+
+  return $output;
+}
+
+/*
+ * Implements THEME_preprocess_page().
+ */
+function techmill_social_preprocess_page(&$vars) {
+
+  // AddThis JS snippet
+  $options = array(
+    'type' => 'external',
+    'async' => 'async',
+  );
+  $pubID = variable_get('addthis_pubid', 'ra-54305991214faa92');
+  drupal_add_js('//s7.addthis.com/js/300/addthis_widget.js#pubid='.$pubID, $options);
+}
