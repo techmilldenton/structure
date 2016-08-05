@@ -7,9 +7,11 @@
 ?>
 
 <div class="widget-content">
-  <p>
-    <a href="<?php print base_path(); ?>"><img src="<?php print file_create_url($media_file['uri']); ?>" alt=""></a>
-  </p>
+  <?php if (!empty($media_file['uri'])): ?>
+    <p>
+      <a href="<?php print base_path(); ?>"><img src="<?php print file_create_url($media_file['uri']); ?>" alt=""></a>
+    </p>
+  <?php endif; ?>
   <p><?php print theme_get_setting('footer_info') ?></p>
 </div> <!-- End widget-content -->
 
