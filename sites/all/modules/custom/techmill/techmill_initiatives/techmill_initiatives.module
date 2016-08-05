@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Techmill Initiatives feature.
- */
-
-include_once 'techmill_initiatives.features.inc';

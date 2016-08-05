@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the TechMill Meetup feature.
- */
-
-include_once 'techmill_meetup.features.inc';
