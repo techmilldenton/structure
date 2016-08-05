@@ -1,0 +1,590 @@
+diff --git a/js/slicknav/jquery-no-conflict.slicknav.js b/js/slicknav/jquery-no-conflict.slicknav.js
+index ff7af8b..5850c2c 100644
+--- a/js/slicknav/jquery-no-conflict.slicknav.js
++++ b/js/slicknav/jquery-no-conflict.slicknav.js
+@@ -24,7 +24,7 @@
+ 	},
+ 	mobileMenu = 'slicknav',
+ 	prefix = 'slicknav';
+-	
++
+ 	function Plugin( element, options ) {
+ 		this.element = element;
+ 
+@@ -33,18 +33,18 @@
+         // is generally empty as we don't want to alter the default options for
+         // future instances of the plugin
+         this.settings = $.extend( {}, defaults, options) ;
+-        
++
+         this._defaults = defaults;
+         this._name = mobileMenu;
+-        
++
+         this.init();
+ 	}
+-	
++
+ 	Plugin.prototype.init = function () {
+         var $this = this;
+ 		var menu = $(this.element);
+ 		var settings = this.settings;
+-		
++
+ 		// clone menu if needed
+ 		if (settings.duplicate) {
+ 			$this.mobileNav = menu.clone();
+@@ -56,26 +56,26 @@
+ 		}
+ 		else
+ 			$this.mobileNav = menu;
+-		
++
+ 		// styling class for the button
+ 		var iconClass = prefix+'_icon';
+-		
++
+ 		if (settings.label == '') {
+ 			iconClass += ' '+prefix+'_no-text';
+ 		}
+-		
++
+ 		if (settings.parentTag == 'a') {
+ 			settings.parentTag = 'a href="#"';
+ 		}
+-		
++
+ 		// create menu bar
+ 		$this.mobileNav.attr('class', prefix+'_nav');
+ 		var menuBar = $('<div class="'+prefix+'_menu"></div>');
+ 		$this.btn = $('<'+settings.parentTag+' aria-haspopup="true" tabindex="0" class="'+prefix+'_btn '+prefix+'_collapsed"><span class="'+prefix+'_menutxt">'+settings.label+'</span><span class="'+iconClass+'"><span class="'+prefix+'_icon-bar"></span><span class="'+prefix+'_icon-bar"></span><span class="'+prefix+'_icon-bar"></span></span></a>');
+-		$(menuBar).append($this.btn);		
++		$(menuBar).append($this.btn);
+ 		$(settings.prependTo).prepend(menuBar);
+ 		menuBar.append($this.mobileNav);
+-		
++
+ 		// iterate over structure adding additional structure
+ 		var items = $this.mobileNav.find('li');
+ 		$(items).each(function () {
+@@ -83,10 +83,10 @@
+ 			data = {};
+ 			data.children = item.children('ul').attr('role','menu');
+ 			item.data("menu", data);
+-			
++
+ 			// if a list item has a nested menu
+ 			if (data.children.length > 0) {
+-			
++
+ 				// select all text before the child menu
+ 				var a = item.contents();
+ 				var nodes = [];
+@@ -98,21 +98,21 @@
+ 						return false;
+ 					}
+ 				});
+-				
++
+ 				// wrap item text with tag and add classes
+ 				var wrap = $(nodes).wrapAll('<'+settings.parentTag+' role="menuitem" aria-haspopup="true" tabindex="-1" class="'+prefix+'_item"/>').parent();
+-				
++
+ 				item.addClass(prefix+'_collapsed');
+ 				item.addClass(prefix+'_parent');
+-				
++
+ 				// create parent arrow
+ 				$(nodes).last().after('<span class="'+prefix+'_arrow">'+settings.closedSymbol+'</span>');
+-				
+-			
++
++
+ 			} else if ( item.children().length == 0) {
+ 				 item.addClass(prefix+'_txtnode');
+ 			}
+-			
++
+ 			// accessibility for links
+ 			item.children('a').attr('role', 'menuitem').click(function(){
+ 				//Emulate menu close if set
+@@ -120,40 +120,40 @@
+ 					$($this.btn).click();
+ 			});
+ 		});
+-		
++
+ 		// structure is in place, now hide appropriate items
+ 		$(items).each(function () {
+ 			var data = $(this).data("menu");
+ 			$this._visibilityToggle(data.children, false, null, true);
+ 		});
+-		
++
+ 		// finally toggle entire menu
+ 		$this._visibilityToggle($this.mobileNav, false, 'init', true);
+-		
++
+ 		// accessibility for menu button
+ 		$this.mobileNav.attr('role','menu');
+-		
++
+ 		// outline prevention when using mouse
+ 		$(document).mousedown(function(){
+ 			$this._outlines(false);
+ 		});
+-		
++
+ 		$(document).keyup(function(){
+ 			$this._outlines(true);
+ 		});
+-		
++
+ 		// menu button click
+ 		$($this.btn).click(function (e) {
+ 			e.preventDefault();
+-			$this._menuToggle();			
++			$this._menuToggle();
+ 		});
+-		
++
+ 		// click on menu parent
+ 		$this.mobileNav.on('click', '.'+prefix+'_item', function(e){
+ 			e.preventDefault();
+ 			$this._itemClick($(this));
+ 		});
+-		
++
+ 		// check for enter key on menu button and menu parents
+ 		$($this.btn).keydown(function (e) {
+ 			var ev = e || event;
+@@ -162,7 +162,7 @@
+ 				$this._menuToggle();
+ 			}
+ 		});
+-		
++
+ 		$this.mobileNav.on('keydown', '.'+prefix+'_item', function(e) {
+ 			var ev = e || event;
+ 			if(ev.keyCode == 13) {
+@@ -170,7 +170,7 @@
+ 				$this._itemClick($(e.target));
+ 			}
+ 		});
+-		
++
+ 		// allow links clickable within parent tags if set
+ 		if (settings.allowParentLinks) {
+ 			$('.'+prefix+'_item a').click(function(e){
+@@ -178,13 +178,13 @@
+ 			});
+ 		}
+     };
+-	
++
+ 	//toggle menu
+ 	Plugin.prototype._menuToggle = function(el){
+ 		var $this = this;
+ 		var btn = $this.btn;
+ 		var mobileNav = $this.mobileNav;
+-		
++
+ 		if (btn.hasClass(prefix+'_collapsed')) {
+ 			btn.removeClass(prefix+'_collapsed');
+ 			btn.addClass(prefix+'_open');
+@@ -195,7 +195,7 @@
+ 		btn.addClass(prefix+'_animating');
+ 		$this._visibilityToggle(mobileNav, true, btn);
+ 	}
+-	
++
+ 	// toggle clicked items
+ 	Plugin.prototype._itemClick = function(el) {
+ 		var $this = this;
+@@ -231,14 +231,14 @@
+ 		var duration = 0;
+ 		if (animate)
+ 			duration = settings.duration;
+-		
++
+ 		if (el.hasClass(prefix+'_hidden')) {
+ 			el.removeClass(prefix+'_hidden');
+ 			el.slideDown(duration, settings.easingOpen, function(){
+-				
++
+ 				$(trigger).removeClass(prefix+'_animating');
+ 				$(trigger).parent().removeClass(prefix+'_animating');
+-				
++
+ 				//Fire open callback
+ 				if (!init) {
+ 					settings.open(trigger);
+@@ -254,10 +254,10 @@
+ 				items.attr('tabindex', '-1');
+ 				$this._setVisAttr(el, true);
+ 				el.hide(); //jQuery 1.7 bug fix
+-				
++
+ 				$(trigger).removeClass(prefix+'_animating');
+ 				$(trigger).parent().removeClass(prefix+'_animating');
+-				
++
+ 				//Fire init or close callback
+ 				if (!init)
+ 					settings.close(trigger);
+@@ -270,10 +270,10 @@
+ 	// set attributes of element and children based on visibility
+ 	Plugin.prototype._setVisAttr = function(el, hidden) {
+ 		var $this = this;
+-		
++
+ 		// select all parents that aren't hidden
+ 		var nonHidden = el.children('li').children('ul').not('.'+prefix+'_hidden');
+-		
++
+ 		// iterate over all items setting appropriate tags
+ 		if (!hidden) {
+ 			nonHidden.each(function(){
+@@ -314,25 +314,25 @@
+ 			$('.'+prefix+'_item, .'+prefix+'_btn').css('outline','');
+ 		}
+ 	}
+-	
++
+ 	Plugin.prototype.toggle = function(){
+ 		$this._menuToggle();
+ 	}
+-	
++
+ 	Plugin.prototype.open = function(){
+ 		$this = this;
+ 		if ($this.btn.hasClass(prefix+'_collapsed')) {
+ 			$this._menuToggle();
+ 		}
+ 	}
+-	
++
+ 	Plugin.prototype.close = function(){
+ 		$this = this;
+ 		if ($this.btn.hasClass(prefix+'_open')) {
+ 			$this._menuToggle();
+ 		}
+ 	}
+-	
++
+ 	$.fn[mobileMenu] = function ( options ) {
+ 		var args = arguments;
+ 
+@@ -374,6 +374,10 @@
+ 
+ (function($) {
+ 
++Drupal.admin = Drupal.admin || {};
++Drupal.admin.behaviors = Drupal.admin.behaviors || {};
++Drupal.admin.hashes = Drupal.admin.hashes || {};
++
+ // Create the responsive menu using SlickNav.
+ Drupal.admin.behaviors.responsivemenu = function (context, settings, $adminMenu) {
+ 
+@@ -429,4 +433,4 @@ Drupal.admin.behaviors.responsiveshortcuts = function (context, settings, $admin
+   $('#admin-menu-shortcuts-responsive #edit-shortcuts').remove();
+ 
+ };
+-})($jQueryAdminimal);
+\ No newline at end of file
++})($jQueryAdminimal);
+diff --git a/js/slicknav/jquery.slicknav.js b/js/slicknav/jquery.slicknav.js
+index d9a29e2..9fb5675 100644
+--- a/js/slicknav/jquery.slicknav.js
++++ b/js/slicknav/jquery.slicknav.js
+@@ -24,7 +24,7 @@
+ 	},
+ 	mobileMenu = 'slicknav',
+ 	prefix = 'slicknav';
+-	
++
+ 	function Plugin( element, options ) {
+ 		this.element = element;
+ 
+@@ -33,18 +33,18 @@
+         // is generally empty as we don't want to alter the default options for
+         // future instances of the plugin
+         this.settings = $.extend( {}, defaults, options) ;
+-        
++
+         this._defaults = defaults;
+         this._name = mobileMenu;
+-        
++
+         this.init();
+ 	}
+-	
++
+ 	Plugin.prototype.init = function () {
+         var $this = this;
+ 		var menu = $(this.element);
+ 		var settings = this.settings;
+-		
++
+ 		// clone menu if needed
+ 		if (settings.duplicate) {
+ 			$this.mobileNav = menu.clone();
+@@ -56,26 +56,26 @@
+ 		}
+ 		else
+ 			$this.mobileNav = menu;
+-		
++
+ 		// styling class for the button
+ 		var iconClass = prefix+'_icon';
+-		
++
+ 		if (settings.label == '') {
+ 			iconClass += ' '+prefix+'_no-text';
+ 		}
+-		
++
+ 		if (settings.parentTag == 'a') {
+ 			settings.parentTag = 'a href="#"';
+ 		}
+-		
++
+ 		// create menu bar
+ 		$this.mobileNav.attr('class', prefix+'_nav');
+ 		var menuBar = $('<div class="'+prefix+'_menu"></div>');
+ 		$this.btn = $('<'+settings.parentTag+' aria-haspopup="true" tabindex="0" class="'+prefix+'_btn '+prefix+'_collapsed"><span class="'+prefix+'_menutxt">'+settings.label+'</span><span class="'+iconClass+'"><span class="'+prefix+'_icon-bar"></span><span class="'+prefix+'_icon-bar"></span><span class="'+prefix+'_icon-bar"></span></span></a>');
+-		$(menuBar).append($this.btn);		
++		$(menuBar).append($this.btn);
+ 		$(settings.prependTo).prepend(menuBar);
+ 		menuBar.append($this.mobileNav);
+-		
++
+ 		// iterate over structure adding additional structure
+ 		var items = $this.mobileNav.find('li');
+ 		$(items).each(function () {
+@@ -83,10 +83,10 @@
+ 			data = {};
+ 			data.children = item.children('ul').attr('role','menu');
+ 			item.data("menu", data);
+-			
++
+ 			// if a list item has a nested menu
+ 			if (data.children.length > 0) {
+-			
++
+ 				// select all text before the child menu
+ 				var a = item.contents();
+ 				var nodes = [];
+@@ -98,21 +98,21 @@
+ 						return false;
+ 					}
+ 				});
+-				
++
+ 				// wrap item text with tag and add classes
+ 				var wrap = $(nodes).wrapAll('<'+settings.parentTag+' role="menuitem" aria-haspopup="true" tabindex="-1" class="'+prefix+'_item"/>').parent();
+-				
++
+ 				item.addClass(prefix+'_collapsed');
+ 				item.addClass(prefix+'_parent');
+-				
++
+ 				// create parent arrow
+ 				$(nodes).last().after('<span class="'+prefix+'_arrow">'+settings.closedSymbol+'</span>');
+-				
+-			
++
++
+ 			} else if ( item.children().length == 0) {
+ 				 item.addClass(prefix+'_txtnode');
+ 			}
+-			
++
+ 			// accessibility for links
+ 			item.children('a').attr('role', 'menuitem').click(function(){
+ 				//Emulate menu close if set
+@@ -120,40 +120,40 @@
+ 					$($this.btn).click();
+ 			});
+ 		});
+-		
++
+ 		// structure is in place, now hide appropriate items
+ 		$(items).each(function () {
+ 			var data = $(this).data("menu");
+ 			$this._visibilityToggle(data.children, false, null, true);
+ 		});
+-		
++
+ 		// finally toggle entire menu
+ 		$this._visibilityToggle($this.mobileNav, false, 'init', true);
+-		
++
+ 		// accessibility for menu button
+ 		$this.mobileNav.attr('role','menu');
+-		
++
+ 		// outline prevention when using mouse
+ 		$(document).mousedown(function(){
+ 			$this._outlines(false);
+ 		});
+-		
++
+ 		$(document).keyup(function(){
+ 			$this._outlines(true);
+ 		});
+-		
++
+ 		// menu button click
+ 		$($this.btn).click(function (e) {
+ 			e.preventDefault();
+-			$this._menuToggle();			
++			$this._menuToggle();
+ 		});
+-		
++
+ 		// click on menu parent
+ 		$this.mobileNav.on('click', '.'+prefix+'_item', function(e){
+ 			e.preventDefault();
+ 			$this._itemClick($(this));
+ 		});
+-		
++
+ 		// check for enter key on menu button and menu parents
+ 		$($this.btn).keydown(function (e) {
+ 			var ev = e || event;
+@@ -162,7 +162,7 @@
+ 				$this._menuToggle();
+ 			}
+ 		});
+-		
++
+ 		$this.mobileNav.on('keydown', '.'+prefix+'_item', function(e) {
+ 			var ev = e || event;
+ 			if(ev.keyCode == 13) {
+@@ -170,7 +170,7 @@
+ 				$this._itemClick($(e.target));
+ 			}
+ 		});
+-		
++
+ 		// allow links clickable within parent tags if set
+ 		if (settings.allowParentLinks) {
+ 			$('.'+prefix+'_item a').click(function(e){
+@@ -178,13 +178,13 @@
+ 			});
+ 		}
+     };
+-	
++
+ 	//toggle menu
+ 	Plugin.prototype._menuToggle = function(el){
+ 		var $this = this;
+ 		var btn = $this.btn;
+ 		var mobileNav = $this.mobileNav;
+-		
++
+ 		if (btn.hasClass(prefix+'_collapsed')) {
+ 			btn.removeClass(prefix+'_collapsed');
+ 			btn.addClass(prefix+'_open');
+@@ -195,7 +195,7 @@
+ 		btn.addClass(prefix+'_animating');
+ 		$this._visibilityToggle(mobileNav, true, btn);
+ 	}
+-	
++
+ 	// toggle clicked items
+ 	Plugin.prototype._itemClick = function(el) {
+ 		var $this = this;
+@@ -231,14 +231,14 @@
+ 		var duration = 0;
+ 		if (animate)
+ 			duration = settings.duration;
+-		
++
+ 		if (el.hasClass(prefix+'_hidden')) {
+ 			el.removeClass(prefix+'_hidden');
+ 			el.slideDown(duration, settings.easingOpen, function(){
+-				
++
+ 				$(trigger).removeClass(prefix+'_animating');
+ 				$(trigger).parent().removeClass(prefix+'_animating');
+-				
++
+ 				//Fire open callback
+ 				if (!init) {
+ 					settings.open(trigger);
+@@ -254,10 +254,10 @@
+ 				items.attr('tabindex', '-1');
+ 				$this._setVisAttr(el, true);
+ 				el.hide(); //jQuery 1.7 bug fix
+-				
++
+ 				$(trigger).removeClass(prefix+'_animating');
+ 				$(trigger).parent().removeClass(prefix+'_animating');
+-				
++
+ 				//Fire init or close callback
+ 				if (!init)
+ 					settings.close(trigger);
+@@ -270,10 +270,10 @@
+ 	// set attributes of element and children based on visibility
+ 	Plugin.prototype._setVisAttr = function(el, hidden) {
+ 		var $this = this;
+-		
++
+ 		// select all parents that aren't hidden
+ 		var nonHidden = el.children('li').children('ul').not('.'+prefix+'_hidden');
+-		
++
+ 		// iterate over all items setting appropriate tags
+ 		if (!hidden) {
+ 			nonHidden.each(function(){
+@@ -314,25 +314,25 @@
+ 			$('.'+prefix+'_item, .'+prefix+'_btn').css('outline','');
+ 		}
+ 	}
+-	
++
+ 	Plugin.prototype.toggle = function(){
+ 		$this._menuToggle();
+ 	}
+-	
++
+ 	Plugin.prototype.open = function(){
+ 		$this = this;
+ 		if ($this.btn.hasClass(prefix+'_collapsed')) {
+ 			$this._menuToggle();
+ 		}
+ 	}
+-	
++
+ 	Plugin.prototype.close = function(){
+ 		$this = this;
+ 		if ($this.btn.hasClass(prefix+'_open')) {
+ 			$this._menuToggle();
+ 		}
+ 	}
+-	
++
+ 	$.fn[mobileMenu] = function ( options ) {
+ 		var args = arguments;
+ 
+@@ -374,6 +374,10 @@
+ 
+ (function($) {
+ 
++Drupal.admin = Drupal.admin || {};
++Drupal.admin.behaviors = Drupal.admin.behaviors || {};
++Drupal.admin.hashes = Drupal.admin.hashes || {};
++
+ // Create the responsive menu using SlickNav.
+ Drupal.admin.behaviors.responsivemenu = function (context, settings, $adminMenu) {
+ 
+@@ -429,4 +433,4 @@ Drupal.admin.behaviors.responsiveshortcuts = function (context, settings, $admin
+   $('#admin-menu-shortcuts-responsive #edit-shortcuts').remove();
+ 
+ };
+-})(jQuery);
+\ No newline at end of file
++})(jQuery);
